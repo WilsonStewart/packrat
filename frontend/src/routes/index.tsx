@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -6,14 +6,15 @@ export const Route = createFileRoute("/")({
 
 function App() {
   return (
-    <div
-      id="main-editor"
-      contentEditable
-      suppressContentEditableWarning
-      className="container"
-      spellCheck={false}
-    >
-      <Link to="/settings">boooobs</Link>
+    <div>
+      {/* <Link to="/settings">settings</Link> */}
+      <div
+        id="main-editor"
+        contentEditable
+        suppressContentEditableWarning
+        className="container"
+        spellCheck={false}
+      ></div>
     </div>
   );
 }

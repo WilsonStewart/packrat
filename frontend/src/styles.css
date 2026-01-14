@@ -4,7 +4,15 @@ body {
     system-ui,
     -apple-system,
     sans-serif;
-  caret-color: cadetblue;
+  caret-color: #cdff70;
+  /* color: rgb(203, 255, 203); */
+  color: rgb(254, 203, 255);
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+::selection {
+  background-color: #cdff70; /* highlight background */
+  color: white; /* text color */
 }
 
 a {
@@ -31,4 +39,52 @@ a {
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+
+.card {
+  position: relative;
+  margin: 24px 0 16px 0; /* extra top margin for tab */
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+/* The folder tab */
+.card::before {
+  content: "@" attr(data-decorator);
+  position: absolute;
+  top: -20px;
+  left: 12px;
+  padding: 4px 12px;
+  background: #2196f3;
+  color: white;
+  font-size: 0.75em;
+  font-family: monospace;
+  border-radius: 4px 4px 0 0;
+  font-weight: 500;
+}
+
+/* Different colors for different decorators */
+.card[data-decorator="code"]::before {
+  background: #2196f3;
+}
+
+.card[data-decorator="reminder"]::before {
+  background: #ff9800;
+}
+
+.card[data-decorator="note"]::before {
+  background: #4caf50;
+}
+
+/* Card styling based on type */
+.card[data-decorator="code"] {
+  background: #f5f5f5;
+  font-family: "Courier New", monospace;
+}
+
+.card[data-decorator="reminder"] {
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
 }
