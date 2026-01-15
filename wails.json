@@ -9,5 +9,9 @@
   "author": {
     "name": "Wilson Stewart",
     "email": "wilson@bellbellbell.com"
+  },
+  "info": {
+    "productVersion": "0.0.1",
+    "copyright": "Copyright 2026 - Wilson Stewart"
   }
 }

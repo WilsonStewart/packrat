@@ -60,7 +60,7 @@ func (a *App) OpenTextFile() (string, error) {
 	}
 
 	filename := filepath.Base(file)
-	runtime.WindowSetTitle(a.ctx, filename+" - Packrat")
+	runtime.WindowSetTitle(a.ctx, filename)
 
 	return string(content), nil
 }
