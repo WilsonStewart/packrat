@@ -6,6 +6,10 @@ export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
 
+export function OpenTextFile() {
+  return window['go']['main']['App']['OpenTextFile']();
+}
+
 export function Pookie() {
   return window['go']['main']['App']['Pookie']();
 }

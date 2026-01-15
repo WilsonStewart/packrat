@@ -3,4 +3,6 @@
 
 export function Greet(arg1:string):Promise<string>;
 
+export function OpenTextFile():Promise<string>;
+
 export function Pookie():Promise<void>;

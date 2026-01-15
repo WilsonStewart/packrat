@@ -6,6 +6,7 @@ import (
 
 	"github.com/wailsapp/wails/v2/pkg/menu"
 	"github.com/wailsapp/wails/v2/pkg/menu/keys"
+	rt "github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 func CreateMenu(app *App) *menu.Menu {
@@ -19,11 +20,11 @@ func CreateMenu(app *App) *menu.Menu {
 	})
 
 	FileMenu := AppMenu.AddSubmenu("File")
-	FileMenu.AddText("Open rat", keys.CmdOrCtrl("r"), func(_ *menu.CallbackData) {
-		// todo
-	})
+	// FileMenu.AddText("Open rat", keys.CmdOrCtrl("r"), func(_ *menu.CallbackData) {
+	// 	rt.EventsEmit(app.ctx, "file:open")
+	// })
 	FileMenu.AddText("Open file", keys.CmdOrCtrl("o"), func(_ *menu.CallbackData) {
-		// todo
+		rt.EventsEmit(app.ctx, "file:open")
 	})
 
 	if runtime.GOOS == "darwin" {
