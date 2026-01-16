@@ -1,24 +1,41 @@
-import { useEffect, useState } from "react";
-import { OpenTextFile } from "../../wailsjs/go/main/App";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { OpenTextFile, SaveFile } from "../../wailsjs/go/main/App";
 import { EventsOff, EventsOn, LogPrint } from "../../wailsjs/runtime/runtime";
 
 export const Editor = () => {
   const [content, setContent] = useState("");
-  // const [fileName, setFileName] = useState("");
+  const [fileName, setFileName] = useState("");
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState("");
 
+  const mainRef = useRef<HTMLDivElement>(null)
+  // const [htmlString, setHtmlString] = useState("");
+  // const [filePath, setFilePath] = useState("");
+
+  const getEditorHtml = useCallback(async () => {
+    if (mainRef.current) {
+      return mainRef.current.innerHTML;
+    } else {
+      return "";
+    }
+  }, []); // Empty deps - mainRef is a ref, doesn't need to be listed
+
+  const handleFileSave = useCallback(async () => {
+    setFileName(await SaveFile(fileName, await getEditorHtml()));
+  }, [getEditorHtml, fileName]);
+
   useEffect(() => {
-    // Listen for the "file:open" event from the menu
     EventsOn("file:open", async () => {
       await openFile();
     });
 
-    // Cleanup listener on unmount
+    EventsOn("file:save", handleFileSave);
+
     return () => {
       EventsOff("file:open");
+      EventsOff("file:save");
     };
-  }, []);
+  }, [handleFileSave]);
 
   // Rat by Yoga Ahmad Faisal from <a href="https://thenounproject.com/browse/icons/term/rat/" target="_blank" title="Rat Icons">Noun Project</a> (CC BY 3.0)
   // Rat by Delwar Hossain from <a href="https://thenounproject.com/browse/icons/term/rat/" target="_blank" title="Rat Icons">Noun Project</a> (CC BY 3.0)
@@ -61,24 +78,26 @@ export const Editor = () => {
   // };
 
   return (
-    <div>
+    <div
+    // style={{
+    //   display: "flex",
+    //   flexDirection: "column"
+    // }}
+    >
       <div
         contentEditable
         suppressContentEditableWarning
         className="container"
         spellCheck={false}
         onPaste={handlePaste}
-        style={{ whiteSpace: "pre-wrap" }}
+        style={{
+          whiteSpace: "pre-wrap",
+          outline: "red solid 1px"
+        }}
+        ref={mainRef}
       >
-        {/* <button
-          onClick={openFile}
-          disabled={loading}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
-        >
-          open file
-        </button> */}
         {content}
       </div>
-    </div>
+    </div >
   );
 };

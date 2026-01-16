@@ -10,6 +10,6 @@ export function OpenTextFile() {
   return window['go']['main']['App']['OpenTextFile']();
 }
 
-export function Pookie() {
-  return window['go']['main']['App']['Pookie']();
+export function SaveFile(arg1, arg2) {
+  return window['go']['main']['App']['SaveFile'](arg1, arg2);
 }

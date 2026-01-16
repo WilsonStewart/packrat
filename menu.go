@@ -20,11 +20,13 @@ func CreateMenu(app *App) *menu.Menu {
 	})
 
 	FileMenu := AppMenu.AddSubmenu("File")
-	// FileMenu.AddText("Open rat", keys.CmdOrCtrl("r"), func(_ *menu.CallbackData) {
-	// 	rt.EventsEmit(app.ctx, "file:open")
-	// })
-	FileMenu.AddText("Open file", keys.CmdOrCtrl("o"), func(_ *menu.CallbackData) {
+
+	FileMenu.AddText("Open", keys.CmdOrCtrl("o"), func(_ *menu.CallbackData) {
 		rt.EventsEmit(app.ctx, "file:open")
+	})
+
+	FileMenu.AddText("Save", keys.CmdOrCtrl("s"), func(_ *menu.CallbackData) {
+		rt.EventsEmit(app.ctx, "file:save")
 	})
 
 	if runtime.GOOS == "darwin" {

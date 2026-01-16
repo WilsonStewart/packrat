@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/wailsapp/wails/v2/pkg/runtime"
+	rt "github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -30,17 +30,40 @@ func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
 }
 
-func (a *App) Pookie() {
-	fmt.Println("i love boobies.")
+// SaveFile saves content to a file. If path is empty, shows a Save File dialog.
+func (a *App) SaveFile(path string, content string) (string, error) {
+	var err error
+	if path == "" {
+		// Ask user where to save
+		path, err = rt.SaveFileDialog(a.ctx, rt.SaveDialogOptions{
+			DefaultFilename:      "Untitled",
+			CanCreateDirectories: true,
+			Title:                "Save file",
+			Filters: []rt.FileFilter{
+				{DisplayName: "HTML Files", Pattern: "*.html"},
+			},
+		})
+		if err != nil || path == "" {
+			return "", err // user canceled
+		}
+
+		rt.WindowSetTitle(a.ctx, filepath.Base(path))
+	}
+
+	// Write file
+	err = os.WriteFile(path, []byte(content), 0644)
+	if err != nil {
+		return "", err
+	}
+
+	return path, nil
 }
 
 func (a *App) OpenTextFile() (string, error) {
-	file, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{
+	file, err := rt.OpenFileDialog(a.ctx, rt.OpenDialogOptions{
 		Title: "Open Text File",
-		Filters: []runtime.FileFilter{
-			{DisplayName: "Text Files (*.txt)", Pattern: "*.txt"},
-			{DisplayName: "Markdown Files (*.md)", Pattern: "*.md"},
-			{DisplayName: "All Files (*.*)", Pattern: "*.*"},
+		Filters: []rt.FileFilter{
+			{DisplayName: "HTML Files", Pattern: "*.html"},
 		},
 	})
 
@@ -60,7 +83,7 @@ func (a *App) OpenTextFile() (string, error) {
 	}
 
 	filename := filepath.Base(file)
-	runtime.WindowSetTitle(a.ctx, filename)
+	rt.WindowSetTitle(a.ctx, filename)
 
 	return string(content), nil
 }
